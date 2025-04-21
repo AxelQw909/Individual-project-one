@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="BronStyle.css">
+    <title>Бронирования</title>
+</head>
+<body>
+    <script src="header.js"></script>
+    <div id="header-placeholder"></div>
+
+    <div class="main">
+        <div class="table-container">
+            <h2>Запросы на бронирование книг</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Должность</th>
+                        <th>ФИО</th>
+                        <th>Группа</th>
+                        <th>Название книги</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody id="reservation-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tbody = document.getElementById("reservation-body");
+            let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+
+            reservations.forEach((res, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${res.role}</td>
+                    <td><a href="Account.html">${res.fio}</a></td>
+                    <td>${res.group}</td>
+                    <td>${res.book}</td>
+                    <td>
+                        <button class="approve" data-index="${index}">Одобрить</button>
+                        <button class="reject" data-index="${index}">Отказать</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+          
+            tbody.addEventListener("click", (e) => {
+                if (e.target.classList.contains("approve") || e.target.classList.contains("reject")) {
+                    const index = parseInt(e.target.dataset.index);
+                    if (isNaN(index)) return;
+
+                    if (e.target.classList.contains("approve")) {
+                        const approved = reservations[index];
+                        approved.date = "21.04.2025"; 
+
+                        let takenBooks = JSON.parse(localStorage.getItem("takenBooks")) || [];
+                        takenBooks.push(approved);
+                        localStorage.setItem("takenBooks", JSON.stringify(takenBooks));
+                        alert("Книга одобрена");
+                    } else {
+                        alert("Заявка отклонена");
+                    }
+
+                    reservations.splice(index, 1);
+                    localStorage.setItem("reservations", JSON.stringify(reservations));
+                    location.reload(); 
+                }
+            });
+        });
+    </script>
+</body>
+</html>

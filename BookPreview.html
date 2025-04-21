@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="BookPreviewStyle.css">
+    <title>Обзор книги</title>
+</head>
+<body>
+    <script src="header.js"></script>
+    <div id="header-placeholder"></div>
+
+    <div class="main">
+        <div class="book-preview">
+            <div class="book-image">
+                <img src="img/22873450.jpg" alt="Обложка книги">
+            </div>
+            <div class="book-info">
+                <h2>Разработка обслуживаемых программ на языке C#</h2>
+                <p><strong>Автор:</strong> Джуст Виссер</p>
+                <p class="description">
+                    Это краткое описание книги. Здесь вы можете рассказать, о чём книга, какие темы она затрагивает,
+                    кому может быть интересна и почему стоит её прочитать.
+                </p>
+                <button>Забронировать книгу</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const reserveBtn = document.querySelector("button");
+
+            reserveBtn.addEventListener("click", () => {
+                const loggedUser = JSON.parse(localStorage.getItem("loggedUser")); // Получаем данные о пользователе
+                const role = loggedUser ? loggedUser.role : null; // Извлекаем роль пользователя
+
+                let reservation;
+
+                
+                if (role === "admin") {
+                    alert("Администратор не может бронировать книги.");
+                    return;
+                }
+
+             
+                if (role === "Преподаватель") {
+                    reservation = {
+                        fio: "Преподаватель П. П.",
+                        role: "Преподаватель",
+                        book: "Информатика",
+                        date: "2025-04-20"
+                    };
+                } else if (role === "Студент") {
+                    reservation = {
+                        fio: "Студент С. С.",
+                        role: "Студент",
+                        group: "П-102",
+                        book: "Высшая математика",
+                        date: "2025-04-19"
+                    };
+                } else {
+                   
+                    reservation = {
+                        fio: "Тест Т. Т.",
+                        role: "Студент",
+                        group: "П-101",
+                        book: "Разработка обслуживаемых программ на языке C#"
+                    };
+                }
+
+
+                let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+                reservations.push(reservation);
+                localStorage.setItem("reservations", JSON.stringify(reservations));
+
+                alert("Заявка на рассмотрении");
+            });
+        });
+    </script>
+</body>
+</html>

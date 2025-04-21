@@ -1,0 +1,29 @@
+.header {
+    background-color: #333;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-left a,
+.nav-center a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 20px;
+    transition: color 0.3s ease;
+}
+
+.nav-left a:hover,
+.nav-center a:hover {
+    color: #ffcc00;
+}
+
+.nav-center {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}

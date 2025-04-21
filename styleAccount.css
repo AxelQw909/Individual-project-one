@@ -1,0 +1,52 @@
+.profile-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.profile-avatar img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ccc;
+}
+
+.profile-info {
+    flex-grow: 1;
+}
+
+.profile-info h2 {
+    margin-top: 0;
+    font-size: 26px;
+}
+
+.profile-info p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.book-history,
+.approval-history {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.book-history th,
+.book-history td,
+.approval-history th,
+.approval-history td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.book-history th,
+.approval-history th {
+    background-color: #f8f8f8;
+}

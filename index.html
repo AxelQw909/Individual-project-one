@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .box1 h1 {
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .box1 input[type="text"],
+        .box1 input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .box1 input[type="text"]:focus,
+        .box1 input[type="password"]:focus {
+            border-color: #5b9bd5;
+            outline: none;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        #error {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="box1">
+                <h1>Вход</h1>
+                <input type="text" id="login" placeholder="Логин">
+                <input type="password" id="password" placeholder="Пароль">
+                <button class="button" onclick="login()">Войти</button>
+                <p id="error" style="color: red; margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const login = document.getElementById('login').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorField = document.getElementById('error');
+
+            errorField.textContent = "";
+
+            const users = [
+                {
+                    login: "admin",
+                    password: "admin",
+                    role: "admin"
+                },
+                {
+                    login: "pred",
+                    password: "pred",
+                    role: "Преподаватель",
+                    fio: "Преподаватель П. П.",
+                    group: "-",
+                    book: "Информатика",
+                    date: "2025-04-20"
+                },
+                {
+                    login: "stud",
+                    password: "stud",
+                    role: "Студент",
+                    fio: "Студент С. С.",
+                    group: "П-102",
+                    book: "Высшая математика",
+                    date: "2025-04-19"
+                }
+            ];
+
+            const user = users.find(u => u.login === login && u.password === password);
+
+            if (user) {
+                localStorage.setItem("loggedUser", JSON.stringify(user));
+                if (user.role === "admin") {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "SpisokBook.html";
+                }
+            } else if (login && password) {
+                const guestUser = {
+                    login: login,
+                    role: "user"
+                };
+                localStorage.setItem("loggedUser", JSON.stringify(guestUser));
+                window.location.href = "SpisokBook.html";
+            } else {
+                errorField.textContent = "Неверный логин или пароль";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleAddBook.css">
+    <title>Добавить книгу</title>
+</head>
+<body>
+    <script src="header.js"></script>
+    <div id="header-placeholder"></div>
+
+    
+
+    <div class="main">
+        <div class="form-container">
+            <h2>Добавить новую книгу</h2>
+            <form>
+                <label for="title">Название книги:</label>
+                <input type="text" id="title" name="title" placeholder="Введите название">
+
+                <label for="author">Автор:</label>
+                <input type="text" id="author" name="author" placeholder="Введите автора">
+
+                <label for="category">Категория:</label>
+                <select id="category" name="category">
+                    <option value="fiction">Художественная литература</option>
+                    <option value="non-fiction">Научно-популярная</option>
+                    <option value="fantasy">Фэнтези</option>
+                    <option value="science">Наука</option>
+                    <option value="history">История</option>
+                    <option value="children">Детская литература</option>
+                </select>
+
+                <label for="cover">Обложка (путь к изображению):</label>
+                <input type="text" id="cover" name="cover" placeholder="Например: img/book.jpg">
+
+                <button type="submit">Добавить книгу</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

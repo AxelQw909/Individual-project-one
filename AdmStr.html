@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Взятые книги</title>
+    <link rel="stylesheet" href="styleAdm.css">
+    <style>
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .category-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .category-button {
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+
+        .category-list {
+            display: none;
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .category-list div {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .category-list div:hover {
+            background-color: #f0f0f0;
+        }
+
+        .search-input {
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .done-button {
+            background-color: #4da6ff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .done-button:hover {
+            background-color: #3399ff;
+        }
+    </style>
+</head>
+<body>
+    <script src="header.js"></script>
+    <div class="container2">
+        <div id="header-placeholder"></div>
+
+        <div class="container2">
+            <div class="main">
+                <div class="box2">
+                    <h2>Взятые книги:</h2>
+
+                    
+                    <div class="toolbar">
+                       
+                        <div class="category-dropdown">
+                            <button class="category-button" id="categoryToggle">Категории</button>
+                            <div class="category-list" id="categoryList">
+                                <div data-role="Студент">Студенты</div>
+                                <div data-role="Преподаватель">Преподаватели</div>
+                                <div data-role="all">Все</div>
+                            </div>
+                        </div>
+
+                        
+                        <input type="text" class="search-input" id="searchInput" placeholder="Поиск...">
+                    </div>
+
+                    <table id="booksTable">
+                        <thead>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Должность</th>
+                                <th>Группа</th>
+                                <th>Книга</th>
+                                <th>Дата выдачи</th>
+                                <th>Действие</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Поиск по таблице
+        document.getElementById("searchInput").addEventListener("input", function () {
+            filterTable();
+        });
+
+        
+        const toggleButton = document.getElementById("categoryToggle");
+        const categoryList = document.getElementById("categoryList");
+        let selectedRole = "all";
+
+        toggleButton.addEventListener("click", () => {
+            categoryList.style.display = categoryList.style.display === "block" ? "none" : "block";
+        });
+
+        categoryList.querySelectorAll("div").forEach(item => {
+            item.addEventListener("click", () => {
+                selectedRole = item.dataset.role;
+                categoryList.style.display = "none";
+                filterTable();
+            });
+        });
+
+        
+        function filterTable() {
+            const searchValue = document.getElementById("searchInput").value.toLowerCase();
+            const rows = document.querySelectorAll("#booksTable tbody tr");
+
+            rows.forEach(row => {
+                const rowText = row.innerText.toLowerCase();
+                const role = row.children[1].innerText; // столбец "Должность"
+
+                const matchesSearch = rowText.includes(searchValue);
+                const matchesRole = selectedRole === "all" || role === selectedRole;
+
+                row.style.display = (matchesSearch && matchesRole) ? "" : "none";
+            });
+        }
+
+      
+        document.addEventListener("click", function(event) {
+            if (!event.target.closest(".category-dropdown")) {
+                categoryList.style.display = "none";
+            }
+        });
+
+        
+        function markAsReturned(button) {
+            const row = button.closest("tr");
+            const fio = row.children[0].innerText.trim();
+            const book = row.children[3].innerText.trim();
+            const date = row.children[4].innerText.trim();
+
+           
+            const updatedBooks = takenBooks.filter(entry => {
+                return !(entry.fio === fio && entry.book === book && entry.date === date);
+            });
+
+            localStorage.setItem("takenBooks", JSON.stringify(updatedBooks));
+            row.remove();
+            alert("Книга сдана");
+        }
+
+        
+        const takenBooks = [
+            { fio: "Иванов И. И.", role: "Студент", group: "П-101", book: "Компьютерные сети", date: "2025-04-16" },
+            { fio: "Петрова А. В.", role: "Студент", group: "П-102", book: "Компьютерные сети", date: "2025-04-10" },
+            { fio: "Сидоров Н. К.", role: "Студент", group: "П-103", book: "Экономика", date: "2025-04-17" },
+            { fio: "Кузнецова М. П.", role: "Студент", group: "П-104", book: "Экономика", date: "2025-04-02" },
+            { fio: "Борисов Е. С.", role: "Студент", group: "П-105", book: "Литература 20 века", date: "2025-04-09" },
+            { fio: "Смирнов Д. А.", role: "Преподаватель", group: "-", book: "Экономика", date: "2025-03-23" },
+            { fio: "Алексеева Н. Ю.", role: "Преподаватель", group: "-", book: "Литература 20 века", date: "2025-04-08" },
+            { fio: "Тихонов В. С.", role: "Преподаватель", group: "-", book: "История России", date: "2025-04-12" },
+            { fio: "Морозова О. А.", role: "Преподаватель", group: "-", book: "Базы данных", date: "2025-04-08" },
+            { fio: "Лебедев И. Г.", role: "Преподаватель", group: "-", book: "История России", date: "2025-04-04" }
+        ];
+
+        localStorage.setItem("takenBooks", JSON.stringify(takenBooks));
+
+        const booksTbody = document.querySelector("#booksTable tbody");
+
+        takenBooks.forEach(book => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><a href="Account.html">${book.fio}</a></td>
+                <td>${book.role}</td>
+                <td>${book.group}</td>
+                <td>${book.book}</td>
+                <td>${book.date}</td>
+                <td><button class="done-button" onclick="markAsReturned(this)">Сдал</button></td>
+            `;
+            booksTbody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

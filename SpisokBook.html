@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleListBook.css">
+    <title>Список книг</title>
+</head>
+<body>  
+    <script src="header.js"></script>
+    
+
+    <div class="filters">
+        <select id="categoryFilter">
+            <option value="all">Все категории</option>
+            <option value="android">Андроид</option>
+            <option value="csharp">C#</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="js">JS</option>
+        </select>
+        <input type="text" id="searchInput" placeholder="Поиск по названию...">
+    </div>
+
+    <div class="main">
+        <div class="card-container" id="bookList">
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="csharp" data-title="C# .NET 6">
+                <div class="book-card">
+                    <img src="img/69166252.jpg" alt="Книга">
+                    <h3>C# .NET 6</h3>
+                    <p>Автор: Марк Прайс</p>
+                    <button>Забронировать</button>
+                </div>   
+            </a>
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="android" data-title="Android полное руководство по разработке приложений">
+                <div class="book-card">
+                    <img src="img/70447249.jpg" alt="Книга">
+                    <h3>Android полное руководство по разработке приложений</h3>
+                    <p>Автор: Stack Overflow</p>
+                    <button>Забронировать</button>
+                </div>
+            </a>
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="csharp" data-title="C# Основы программирования">
+                <div class="book-card">
+                    <img src="img/70881667.jpg" alt="Книга">
+                    <h3>C# Основы программирования</h3>
+                    <p>Автор: Microsoft</p>
+                    <button>Забронировать</button>
+                </div>
+            </a>
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="js" data-title="Java Script основы программирования">
+                <div class="book-card">
+                    <img src="img/71828314.jpg" alt="Книга">
+                    <h3>Java Script основы программирования</h3>
+                    <p>Автор: Microsoft</p>
+                    <button>Забронировать</button>
+                </div>
+            </a>
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="android" data-title="Google Android программирование для мобильных устройств">
+                <div class="book-card">
+                    <img src="img/4991367.jpg" alt="Книга">
+                    <h3>Google Android программирование для мобильных устройств</h3>
+                    <p>Автор: Google</p>
+                    <button>Забронировать</button>
+                </div>
+            </a>
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="html" data-title="HTML 5, CSS 3 и Web 2.0 Разработка современных Web-сайтов">
+                <div class="book-card">
+                    <img src="img/4999247.jpg" alt="Книга">
+                    <h3>HTML 5, CSS 3 и Web 2.0 Разработка современных Web-сайтов</h3>
+                    <p>Автор: Microsoft</p>
+                    <button>Забронировать</button>
+                </div>
+            </a>
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="csharp" data-title="Разработка обсуживаемых программ на языке C#">
+                <div class="book-card">
+                    <img src="img/22873450.jpg" alt="Книга">
+                    <h3>Разработка обсуживаемых программ на языке C#</h3>
+                    <p>Автор: Джуст Виссер</p>
+                    <button>Забронировать</button>
+                </div>
+            </a>
+
+            <a href="BookPreview.html" class="book-card-wrapper" data-category="csharp" data-title="Асинхронное программирование в C# 5.0">
+                <div class="book-card">
+                    <img src="img/6090304.jpg" alt="Книга">
+                    <h3>Асинхронное программирование в C# 5.0</h3>
+                    <p>Автор: Алекс Дэвис</p>
+                    <button>Забронировать</button>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        const categoryFilter = document.getElementById('categoryFilter');
+        const searchInput = document.getElementById('searchInput');
+        const books = document.querySelectorAll('.book-card-wrapper');
+
+        function filterBooks() {
+            const selectedCategory = categoryFilter.value;
+            const searchTerm = searchInput.value.toLowerCase();
+
+            books.forEach(book => {
+                const bookCategory = book.getAttribute('data-category');
+                const bookTitle = book.getAttribute('data-title').toLowerCase();
+
+                const matchesCategory = selectedCategory === 'all' || bookCategory === selectedCategory;
+                const matchesSearch = bookTitle.includes(searchTerm);
+
+                if (matchesCategory && matchesSearch) {
+                    book.style.display = 'block';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+        }
+
+        categoryFilter.addEventListener('change', filterBooks);
+        searchInput.addEventListener('input', filterBooks);
+    </script>
+</body>
+</html>
